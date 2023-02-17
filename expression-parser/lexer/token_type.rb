@@ -18,6 +18,7 @@ class TokenType
   TokenType.add_item :MINUS, 4 # -
   TokenType.add_item :ASTERISK, 5 # *
   TokenType.add_item :SLASH, 6 # /
+  TokenType.add_item :NUMBER, 7
 end
 # #That's it! We can now use our enum :
 # my_color = TokenType::RED if some_condition

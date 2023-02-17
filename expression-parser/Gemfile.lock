@@ -9,8 +9,28 @@ GEM
     ast (2.4.2)
     concurrent-ruby (1.2.0)
     diff-lcs (1.5.0)
+    dry-core (1.0.0)
+      concurrent-ruby (~> 1.0)
+      zeitwerk (~> 2.6)
+    dry-inflector (1.0.0)
+    dry-logic (1.5.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0, < 2)
+      zeitwerk (~> 2.6)
+    dry-struct (1.6.0)
+      dry-core (~> 1.0, < 2)
+      dry-types (>= 1.7, < 2)
+      ice_nine (~> 0.11)
+      zeitwerk (~> 2.6)
+    dry-types (1.7.1)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0)
+      dry-inflector (~> 1.0)
+      dry-logic (~> 1.4)
+      zeitwerk (~> 2.6)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
+    ice_nine (0.11.2)
     json (2.6.3)
     minitest (5.17.0)
     parallel (1.22.1)
@@ -61,12 +81,14 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.4.2)
+    zeitwerk (2.6.7)
 
 PLATFORMS
   aarch64-linux
   x86_64-linux
 
 DEPENDENCIES
+  dry-struct (~> 1.6)
   rspec
   rubocop
   rubocop-performance
@@ -74,4 +96,4 @@ DEPENDENCIES
   rubocop-rspec
 
 BUNDLED WITH
-   2.4.1
+   2.4.6
