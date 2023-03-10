@@ -4,7 +4,8 @@ require_relative "./token"
 class Lexer
   def initialize
     @extractors = []
-    @extractors.push(:extract_number_token)
+    @extractors.push(:extract_number)
+    @extractors.push(:extract_operator)
   end
 
   def tokenize(input)
@@ -25,7 +26,7 @@ class Lexer
 
   private
 
-  def extract_number_token(input, start_index)
+  def extract_number(input, start_index)
     value = ""
     index = start_index
     while index < input.length && Utils.digit?(input[index])
@@ -33,5 +34,23 @@ class Lexer
       index += 1
     end
     value.length.positive? ? { next_index: index, token: Token.new(token_type: TokenType::NUMBER, value: value) } : nil
+  end
+
+  def extract_operator(input, start_index)
+    operators = { "(": TokenType::LEFT_PARENTHESIS,
+                  ")": TokenType::RIGHT_PARENTHESIS,
+                  "+": TokenType::PLUS,
+                  "-": TokenType::MINUS,
+                  "*": TokenType::ASTERISK,
+                  "/": TokenType::SLASH }
+    # puts operators.methods.sort
+    # operators.stringify_keys not sure why stringify_keys does not exist
+
+    operators.each do |operator, token_type|
+      next unless input[start_index, operator.length] == operator.to_s
+
+      break { next_index: start_index + operator.length,
+              token: Token.new(token_type: token_type, value: operator.to_s) }
+    end
   end
 end
