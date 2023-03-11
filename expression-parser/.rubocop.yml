@@ -39,6 +39,7 @@ Metrics/MethodLength:
   Description: "Avoid methods longer than 5 lines of code."
   StyleGuide: "https://github.com/bbatsov/ruby-style-guide#short-methods"
   Max: 50
+  CountAsOne: ["array", "hash", "heredoc"]
   Enabled: true
 
 Metrics/BlockLength:
@@ -172,6 +173,11 @@ Layout/MultilineMethodCallIndentation:
     that span more than one line.
   Enabled: true
   EnforcedStyle: indented
+
+#Rspec
+RSpec/ExampleLength:
+  CountAsOne: ["array", "hash", "heredoc"]
+  Max: 10
 
 # Rails Cops
 
