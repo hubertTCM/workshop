@@ -1,6 +1,6 @@
 {
-  "defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python3",
-  "python.linting.PylintEnabled": true,
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python3",
+  "python.linting.pylintEnabled": true,
   // The number of spaces a tab is equal to.
   "editor.tabSize": 4,
   // Insert spaces when pressing Tab.
