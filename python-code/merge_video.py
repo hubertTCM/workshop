@@ -18,11 +18,13 @@ def merge_video(folder_full_path):
         files = natsorted(files)
         print(root)
         for file in files:
-            extension = os.path.splitext(file)[1]
-            if extension == '.mp4':
-                file_path = os.path.join(root, file)
-                video = VideoFileClip(file_path)
-                videos.append(video)
+            file_path = os.path.join(root, file)
+            video = VideoFileClip(file_path)
+            videos.append(video)
+
+        min_height = min([c.h for c in videos])
+        min_width = min([c.w for c in videos])
+        videos = [c.resize(newsize=(min_width, min_height)) for c in videos]
 
         output_video_file = os.path.join(root + ".mp4")
         output_audio_file = os.path.join(root + ".mp3")
