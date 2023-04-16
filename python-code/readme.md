@@ -13,3 +13,5 @@
         pip3 install -U autopep8
         pip3 install PyPDF2
     ```
+
+    https://www.stellarinfo.com/blog/repair-corrupt-videos-using-ffmpeg/
