@@ -1,6 +1,6 @@
 """os module"""
 import os
-from PyPDF2 import PdfMerger, PdfWriter, PdfReader
+from PyPDF2 import PdfWriter, PdfReader
 from dotenv import load_dotenv
 
 
@@ -24,16 +24,30 @@ def merge_files(pdf_folder):
         title = filename.removesuffix(".pdf").strip()
         pdf_writer.add_outline_item(title, len(pdf_writer.pages))
         list(map(pdf_writer.add_page, pdf_reader.pages))
-    pdf_writer.write("out/姚系论文集.pdf")
+    pdf_writer.write("out/1.姚系论文集.pdf")
     print(pdf_folder)
+
+
+def remove_answer_pages():
+    """answer page is in last, remove it from pdf file"""
+    pdf_folder = os.getenv("PAPER_FOLDER")
+    pdf_files = [filename for filename in os.listdir(
+        pdf_folder) if os.path.isfile(os.path.join(pdf_folder, filename))]
+
+    for filename in pdf_files:
+        pdf_reader = PdfReader(os.path.join(pdf_folder, filename))
+        pdf_writer = PdfWriter()
+        list(map(pdf_writer.add_page, pdf_reader.pages[:-1]))
+        pdf_writer.write("out/papers/"+filename)
 
 
 def main():
     "entry function"
     load_dotenv()
-    pdf_folder = os.getenv("PDF_FOLDER")
+    # pdf_folder = os.getenv("PDF_FOLDER")
     # export_filenames(pdf_folder)
-    merge_files(pdf_folder)
+    # merge_files(pdf_folder)
+    remove_answer_pages()
 
 
 if __name__ == '__main__':
