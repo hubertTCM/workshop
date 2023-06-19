@@ -1,6 +1,6 @@
 """Module for iterating directories etc."""
 import os
-from moviepy.editor import VideoFileClip, concatenate_videoclips
+from moviepy.editor import VideoFileClip, concatenate_videoclips, AudioFileClip, concatenate_audioclips
 from natsort import natsorted
 from dotenv import load_dotenv
 
@@ -34,12 +34,25 @@ def merge_video_debug(folder_full_path):
             # print("     end:"+output_audio_file)
 
 
+def merge_audio(folder_full_path):
+    """merge audios to a single file"""
+    audios = []
+    for root, _, files in os.walk(folder_full_path):
+        files = natsorted(files)
+        for file in files:
+            file_path = os.path.join(root, file)
+            audios.append(AudioFileClip(file_path))
+
+        output_audio_file = os.path.join(root + ".mp3")
+        final_clip = concatenate_audioclips(audios)
+        final_clip.write_audiofile(output_audio_file)
+
+
 def merge_video(folder_full_path):
     """merge videos to a single file"""
     videos = []
 
     for root, _, files in os.walk(folder_full_path):
-        # files.sort()
         files = natsorted(files)
         print(root)
         for file in files:
@@ -61,15 +74,19 @@ def merge_video(folder_full_path):
 
 def main():
     """entry function"""
-    video_folder = os.getenv('VIDEO_FOLDER')
+    # video_folder = os.getenv('VIDEO_FOLDER')
 
-    video_debug = os.getenv('VIDEO_DEBUG')
-    for root, dirs, _ in os.walk(video_folder):
+    # video_debug = os.getenv('VIDEO_DEBUG')
+    # for root, dirs, _ in os.walk(video_folder):
+    #     for sub_folder in dirs:
+    #         if video_debug == 'True':
+    #             merge_video_debug(os.path.join(root, sub_folder))
+    #         else:
+    #             merge_video(os.path.join(root, sub_folder))
+    audio_folder = os.getenv('AUDIO_FOLDER')
+    for root, dirs, _ in os.walk(audio_folder):
         for sub_folder in dirs:
-            if video_debug == 'True':
-                merge_video_debug(os.path.join(root, sub_folder))
-            else:
-                merge_video(os.path.join(root, sub_folder))
+            merge_audio(os.path.join(root, sub_folder))
 
 
 # https://dev.to/jakewitcher/using-env-files-for-environment-variables-in-python-applications-55a1
