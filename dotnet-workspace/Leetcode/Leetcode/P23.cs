@@ -26,15 +26,15 @@ namespace Leetcode
                     return null;
                 }
 
-                ListNode answer = null;
+                // ListNode answer = null;
 
-                foreach (var list in lists)
-                {
-                    answer = MergeList(answer, list);
-                }
+                // foreach (var list in lists)
+                // {
+                //     answer = MergeList(answer, list);
+                // }
 
-                return answer;
-
+                // return answer;
+                return MergeLists(lists, 0, lists.Length - 1);
             }
 
             private ListNode MergeList(ListNode x, ListNode y)
@@ -72,6 +72,23 @@ namespace Leetcode
                     current.next = yCurrent;
                 }
                 return head.next;
+            }
+
+            private ListNode MergeLists(ListNode[] lists, int start, int end)
+            {
+                if (start > end)
+                {
+                    return null;
+                }
+                if (start == end)
+                {
+                    return lists[start];
+                }
+                var middle = (start + end) / 2;
+
+                var x = MergeLists(lists, start, middle);
+                var y = MergeLists(lists, middle + 1, end);
+                return MergeList(x, y);
             }
         }
 
