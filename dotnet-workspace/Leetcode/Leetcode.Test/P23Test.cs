@@ -4,7 +4,6 @@ using Leetcode.P23;
 namespace Leetcode.Test;
 
 
-
 public class P23Test
 {
     [Theory]
