@@ -2,11 +2,11 @@ using System;
 using System.Text;
 using Leetcode.P23;
 
-namespace Leetcode.Test;
+namespace Leetcode;
 
 public static class Utils
 {
-    public static ListNode ToListNode(string source)
+    public static ListNode ToListNode(this string source)
     {
         // Remove any leading or trailing brackets
         var str = source.Trim('[', ']');
@@ -53,5 +53,28 @@ public static class Utils
             current = current.next;
         }
         return $"[{stringBuilder}]";
+    }
+
+    public static int[][] ToJaggedArray(this string input)
+    {
+        // Split the input string into individual grids
+        string[] gridStrings = input.Split(new[] { "],[", "], [" }, StringSplitOptions.None);
+
+        // Create a jagged array to store the converted grids
+        int[][] jaggedArray = new int[gridStrings.Length][];
+
+        // Iterate through each grid string and convert it to an array of integers
+        for (int i = 0; i < gridStrings.Length; i++)
+        {
+            string[] gridElements = gridStrings[i].Trim('[', ']').Split(',');
+            jaggedArray[i] = new int[gridElements.Length];
+
+            for (int j = 0; j < gridElements.Length; j++)
+            {
+                jaggedArray[i][j] = int.Parse(gridElements[j]);
+            }
+        }
+
+        return jaggedArray;
     }
 }
