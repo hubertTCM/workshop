@@ -7,13 +7,14 @@ public class Solution
     public class CacheItem
     {
         public TreeNode Node { get; set; }
-        public int ValueWithNode { get; set; } = -1;
-        public int ValueWithoutNode { get; set; } = -1;
+        public int ValueWithNode { get; set; }
+        public int ValueWithoutNode { get; set; }
     }
 
     public int Rob(TreeNode root)
     {
-        var cache = new List<CacheItem>();
+        var cache = new List<CacheItem>([new CacheItem()]);
+
         Rob(root, cache);
 
         var item = cache.Find(item => item.Node == root);
@@ -24,13 +25,18 @@ public class Solution
         return 0;
     }
 
+    private int Max(int value, params int[] values)
+    {
+        var max = value;
+        foreach (var item in values)
+        {
+            max = Math.Max(item, max);
+        }
+        return max;
+    }
+
     private CacheItem Rob(TreeNode root, List<CacheItem> cache)
     {
-        if (root == null)
-        {
-            return null;
-        }
-
         var item = cache.Find(temp => temp.Node == root);
         if (item != null)
         {
@@ -54,11 +60,11 @@ public class Solution
         var left = Rob(root.left, cache);
         var right = Rob(root.right, cache);
 
-        var subWithoutNodeTotal = (left?.ValueWithoutNode ?? 0) + (right?.ValueWithoutNode ?? 0);
-        var subWithNodeTotal = (left?.ValueWithNode ?? 0) + (right?.ValueWithNode ?? 0);
-
-        item.ValueWithNode = root.val + (left?.ValueWithoutNode ?? 0) + (right?.ValueWithoutNode ?? 0);
-        item.ValueWithoutNode = Math.Max(subWithNodeTotal, subWithoutNodeTotal);
+        item.ValueWithNode = root.val + left.ValueWithoutNode + right.ValueWithoutNode;
+        item.ValueWithoutNode = Max(left.ValueWithNode + right.ValueWithNode,
+            left.ValueWithNode + right.ValueWithoutNode,
+            left.ValueWithoutNode + right.ValueWithNode,
+            left.ValueWithoutNode + right.ValueWithoutNode);
 
         cache.Add(item);
 
