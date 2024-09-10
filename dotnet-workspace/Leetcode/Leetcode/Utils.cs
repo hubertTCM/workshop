@@ -1,8 +1,22 @@
 using System;
+using System.Net.Http.Headers;
 using System.Text;
 using Leetcode.P23;
 
 namespace Leetcode;
+
+public class TreeNode
+{
+    public int val;
+    public TreeNode left;
+    public TreeNode right;
+    public TreeNode(int val = 0, TreeNode left = null, TreeNode right = null)
+    {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
 
 public static class Utils
 {
@@ -55,6 +69,7 @@ public static class Utils
         return $"[{stringBuilder}]";
     }
 
+    // "[[1,1,1,0,0],[0,1,1,1,1]]";
     public static int[][] ToJaggedArray(this string input)
     {
         // Split the input string into individual grids
@@ -76,5 +91,48 @@ public static class Utils
         }
 
         return jaggedArray;
+    }
+
+    // [2,1,3,null,4]
+    public static TreeNode ToTreeNode(this string source)
+    {
+        if (string.IsNullOrEmpty(source))
+        {
+            return null;
+        }
+        var s = source.Trim('[', ']');
+        var valueQueue = new Queue<string>(s.Split(',').ToArray());
+
+        if (valueQueue.Count == 0)
+        {
+            return null;
+        }
+
+        var nodeQueue = new Queue<TreeNode>();
+        var root = new TreeNode(int.Parse(valueQueue.Dequeue()));
+        nodeQueue.Enqueue(root);
+
+        while (valueQueue.Count > 0)
+        {
+            var node = nodeQueue.Dequeue();
+            var left = valueQueue.Dequeue();
+            if (left != "null")
+            {
+                node.left = new TreeNode(int.Parse(left));
+                nodeQueue.Enqueue(node.left);
+            }
+            if (valueQueue.Count > 0)
+            {
+                var right = valueQueue.Dequeue();
+                if (right != "null")
+                {
+                    node.right = new TreeNode(int.Parse(right));
+                    nodeQueue.Enqueue(node.right);
+                }
+            }
+        }
+
+
+        return root;
     }
 }
