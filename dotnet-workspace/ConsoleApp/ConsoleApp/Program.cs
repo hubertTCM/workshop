@@ -7,7 +7,11 @@ namespace ConsoleApp
         static void Main(string[] args)
         {
             // See https://aka.ms/new-console-template for more information
-            Console.WriteLine("Hello, World!");
+
+            var deduplicator = new FileDeDuplicator();
+            deduplicator.RemoveDuplicateFile(""); // Replace with your directory path
+
+            Console.WriteLine("Done!");
         }
     }
 }
